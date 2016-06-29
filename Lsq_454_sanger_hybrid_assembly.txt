@@ -1,58 +1,85 @@
-# Example for a manifest describing a denovo assembly with
-# unpaired 454 data
+# MIRA 454 and Sanger denovo assembly Manifest file
 
-# First part: defining some basic things
-# In this example, we just give a name to the assembly
-#  and tell MIRA it should map a genome in accurate mode
+### Run Mira under the following parameters and data sets ######################
 
-project = MyFirstAssembly
+project = 454_mid1_6_n_sanger_10k_data
 job = genome,denovo,accurate
 
-# The second part defines the sequencing data MIRA should load and assemble
-# The data is logically divided into "readgroups"
+## Define MIRA Parameters ######################################################
 
-# here's the 454 data
-# Data should be past QC
-# QC consits of.....
+parameters= COMMON_SETTINGS -GENERAL:number_of_threads=23
+parameters= SANGER_SETTINGS -AS:mrl=80:epoq=no
+parameters= 454_SETTINGS -AS:mrl=30:epoq=yes
 
-# .sff changed to .fasta and .fasta.qual
-#
+#### 454 data ##################################################################
+
+## QC for 454 data consists of
+# Converting .sff --> .fastq and .xml
+# sff_extract --min_left_clip 33 --mira_xml_info MID1.xml -o MID1.fastq mid_MID1.sff
+# sff_extract --min_left_clip 33 --mira_xml_info MID2.xml -o MID2.fastq mid_MID2.sff
+# sff_extract --min_left_clip 33 --mira_xml_info MID3.xml -o MID3.fastq mid_MID3.sff
+# sff_extract --min_left_clip 33 --mira_xml_info MID4.xml -o MID4.fastq mid_MID4.sff
+# sff_extract --min_left_clip 33 --mira_xml_info MID5.xml -o MID5.fastq mid_MID5.sff
+# sff_extract --min_left_clip 33 --mira_xml_info MID6.xml -o MID6.fastq mid_MID6.sff
+
+## Vector trimming
+# ssaha2 -output ssaha2
+#  -kmer 8 -skip 1 -seeds 1 -score 12 -cmatch 9 -ckmer 6
+#  /path/where/the/vector/data/resides/vector.fasta
+#  yourinputsequences.fasta > screendataforyoursequences.ssaha2
+
+# ssaha2 -output ssaha2 -kmer 8 -skip 1 -seeds 1 -score 12 -cmatch 9 -ckmer 6 ./contaminates.fasta MID1.fastq > MID1.ssaha2
+# ssaha2 -output ssaha2 -kmer 8 -skip 1 -seeds 1 -score 12 -cmatch 9 -ckmer 6 ./contaminates.fasta MID2.fastq > MID2.ssaha2
+# ssaha2 -output ssaha2 -kmer 8 -skip 1 -seeds 1 -score 12 -cmatch 9 -ckmer 6 ./contaminates.fasta MID3.fastq > MID3.ssaha2
+# ssaha2 -output ssaha2 -kmer 8 -skip 1 -seeds 1 -score 12 -cmatch 9 -ckmer 6 ./contaminates.fasta MID4.fastq > MID4.ssaha2
+# ssaha2 -output ssaha2 -kmer 8 -skip 1 -seeds 1 -score 12 -cmatch 9 -ckmer 6 ./contaminates.fasta MID5.fastq > MID5.ssaha2
+# ssaha2 -output ssaha2 -kmer 8 -skip 1 -seeds 1 -score 12 -cmatch 9 -ckmer 6 ./contaminates.fasta MID6.fastq > MID6.ssaha2
 
 readgroup = Mid1
-data = ~/Data/blast_data/mid_MID1.fasta*
+data = ~/Data/Mira_files/data_454_sanger/454/MID1.*
 technology = 454
 
 readgroup = Mid2
-data = ~/Data/blast_data/mid_MID2.fasta*
+data = ~/Data/Mira_files/data_454_sanger/454/MID2.*
 technology = 454
 
 readgroup = Mid3
-data = ~/Data/blast_data/mid_MID3.fasta*
+data = ~/Data/Mira_files/data_454_sanger/454/MID3.*
 technology = 454
 
 readgroup = Mid4
-data = ~/Data/blast_data/mid_MID4.fasta*
+data = ~/Data/Mira_files/data_454_sanger/454/MID4.*
 technology = 454
 
 readgroup = Mid5
-data = ~/Data/blast_data/mid_MID5.fasta*
+data = ~/Data/Mira_files/data_454_sanger/454/MID5.*
 technology = 454
 
 readgroup = Mid6
-data = ~/Data/blast_data/mid_MID6.fasta*
+data = ~/Data/Mira_files/data_454_sanger/454/MID6.*
 technology = 454
 
-# here's the sanger data
+#### Sanger data ###############################################################
+## QC consits of :
+# Grabbing phredPHrap output which converts all .AB1 reads to .fasta and .qual
+
+## Vector trimming
+# ssaha2 -output ssaha2 -kmer 8 -skip 1 -seeds 1 -score 12 -cmatch 9 -ckmer 6 ../454/contaminates.fasta Lsq_167d17_10k_shotgun.fasta.screen > Lsq_167d17_10k_shotgun.fasta.screen.ssaha2 &
 
 readgroup = DataForSanger10kbLib
-data = /home/mgrobelny/Data/Mira_files/data_454_sanger/Lsq_167d17_10k_shotgun.fasta.screen*
+data = /home/mgrobelny/Data/Mira_files/data_454_sanger/Lsq_167d17_10k_shotgun.fasta.screen.*
+data = screendataforyoursequences.ssaha2
 technology = sanger
-template_size = 3000 10000
+#template_size = 2000 10000
 #segment_placement = ---> <--- what does this mean??
 
 # Data is not available yet
 # readgroup = DataForSanger7kbLib
-# data = /home/mgrobelny/Data/Mira_files/data_454_sanger/Lsq_167d17_7k_shotgun.fasta.screen*
+# data = /home/mgrobelny/Data/Mira_files/data_454_sanger/Lsq_167d17_7k_shotgun.fasta.screen.*
 # technology = sanger
 # template_size = 3000 10000
 # segment_placement = ---> <--- what does this mean??
+
+#### Running Mira  #############################################################
+# rename this file from .txt to .conf
+# mira Lsq_454_sanger_hybrid_assembly.conf > mira_log_assembly.txt &
