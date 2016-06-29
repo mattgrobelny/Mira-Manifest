@@ -1,0 +1,58 @@
+# Example for a manifest describing a denovo assembly with
+# unpaired 454 data
+
+# First part: defining some basic things
+# In this example, we just give a name to the assembly
+#  and tell MIRA it should map a genome in accurate mode
+
+project = MyFirstAssembly
+job = genome,denovo,accurate
+
+# The second part defines the sequencing data MIRA should load and assemble
+# The data is logically divided into "readgroups"
+
+# here's the 454 data
+# Data should be past QC
+# QC consits of.....
+
+# .sff changed to .fasta and .fasta.qual
+#
+
+readgroup = Mid1
+data = ~/Data/blast_data/mid_MID1.fasta*
+technology = 454
+
+readgroup = Mid2
+data = ~/Data/blast_data/mid_MID2.fasta*
+technology = 454
+
+readgroup = Mid3
+data = ~/Data/blast_data/mid_MID3.fasta*
+technology = 454
+
+readgroup = Mid4
+data = ~/Data/blast_data/mid_MID4.fasta*
+technology = 454
+
+readgroup = Mid5
+data = ~/Data/blast_data/mid_MID5.fasta*
+technology = 454
+
+readgroup = Mid6
+data = ~/Data/blast_data/mid_MID6.fasta*
+technology = 454
+
+# here's the sanger data
+
+readgroup = DataForSanger10kbLib
+data = /home/mgrobelny/Data/Mira_files/data_454_sanger/Lsq_167d17_10k_shotgun.fasta.screen*
+technology = sanger
+template_size = 3000 10000
+#segment_placement = ---> <--- what does this mean??
+
+# Data is not available yet
+# readgroup = DataForSanger7kbLib
+# data = /home/mgrobelny/Data/Mira_files/data_454_sanger/Lsq_167d17_7k_shotgun.fasta.screen*
+# technology = sanger
+# template_size = 3000 10000
+# segment_placement = ---> <--- what does this mean??
