@@ -28,47 +28,68 @@ parameters= 454_SETTINGS -AS:mrl=30:epoq=yes
 #  /path/where/the/vector/data/resides/vector.fasta
 #  yourinputsequences.fasta > screendataforyoursequences.ssaha2
 
-# ssaha2 -output ssaha2 -kmer 8 -skip 1 -seeds 1 -score 12 -cmatch 9 -ckmer 6 ./contaminates.fasta MID1.fastq > MID1.ssaha2
-# ssaha2 -output ssaha2 -kmer 8 -skip 1 -seeds 1 -score 12 -cmatch 9 -ckmer 6 ./contaminates.fasta MID2.fastq > MID2.ssaha2
-# ssaha2 -output ssaha2 -kmer 8 -skip 1 -seeds 1 -score 12 -cmatch 9 -ckmer 6 ./contaminates.fasta MID3.fastq > MID3.ssaha2
-# ssaha2 -output ssaha2 -kmer 8 -skip 1 -seeds 1 -score 12 -cmatch 9 -ckmer 6 ./contaminates.fasta MID4.fastq > MID4.ssaha2
-# ssaha2 -output ssaha2 -kmer 8 -skip 1 -seeds 1 -score 12 -cmatch 9 -ckmer 6 ./contaminates.fasta MID5.fastq > MID5.ssaha2
-# ssaha2 -output ssaha2 -kmer 8 -skip 1 -seeds 1 -score 12 -cmatch 9 -ckmer 6 ./contaminates.fasta MID6.fastq > MID6.ssaha2
+# ssaha2 -output ssaha2 -kmer 8 -skip 1 -seeds 1 -score 12 -cmatch 9 -ckmer 6 ./contaminates.fasta MID1.fastq > MID1.ssaha2 &
+# ssaha2 -output ssaha2 -kmer 8 -skip 1 -seeds 1 -score 12 -cmatch 9 -ckmer 6 ./contaminates.fasta MID2.fastq > MID2.ssaha2 &
+# ssaha2 -output ssaha2 -kmer 8 -skip 1 -seeds 1 -score 12 -cmatch 9 -ckmer 6 ./contaminates.fasta MID3.fastq > MID3.ssaha2 &
+# ssaha2 -output ssaha2 -kmer 8 -skip 1 -seeds 1 -score 12 -cmatch 9 -ckmer 6 ./contaminates.fasta MID4.fastq > MID4.ssaha2 &
+# ssaha2 -output ssaha2 -kmer 8 -skip 1 -seeds 1 -score 12 -cmatch 9 -ckmer 6 ./contaminates.fasta MID5.fastq > MID5.ssaha2 &
+# ssaha2 -output ssaha2 -kmer 8 -skip 1 -seeds 1 -score 12 -cmatch 9 -ckmer 6 ./contaminates.fasta MID6.fastq > MID6.ssaha2 &
 
 readgroup = Mid1
-data = ~/Data/Mira_files/data_454_sanger/454/MID1.*
+data = ~/Data/Mira_files/data_454_sanger/454/MID1.fastq
+data = ~/Data/Mira_files/data_454_sanger/454/MID1.xml
+data = ~/Data/Mira_files/data_454_sanger/454/MID1.ssaha2
+
 technology = 454
 
 readgroup = Mid2
-data = ~/Data/Mira_files/data_454_sanger/454/MID2.*
+data = ~/Data/Mira_files/data_454_sanger/454/MID2.fastq
+data = ~/Data/Mira_files/data_454_sanger/454/MID2.xml
+data = ~/Data/Mira_files/data_454_sanger/454/MID2.ssaha2
+
 technology = 454
 
 readgroup = Mid3
-data = ~/Data/Mira_files/data_454_sanger/454/MID3.*
+data = ~/Data/Mira_files/data_454_sanger/454/MID3.fastq
+data = ~/Data/Mira_files/data_454_sanger/454/MID3.xml
+data = ~/Data/Mira_files/data_454_sanger/454/MID3.ssaha2
+
 technology = 454
 
 readgroup = Mid4
-data = ~/Data/Mira_files/data_454_sanger/454/MID4.*
+data = ~/Data/Mira_files/data_454_sanger/454/MID4.fastq
+data = ~/Data/Mira_files/data_454_sanger/454/MID4.xml
+data = ~/Data/Mira_files/data_454_sanger/454/MID4.ssaha2
 technology = 454
 
 readgroup = Mid5
-data = ~/Data/Mira_files/data_454_sanger/454/MID5.*
+data = ~/Data/Mira_files/data_454_sanger/454/MID5.fastq
+data = ~/Data/Mira_files/data_454_sanger/454/MID5.xml
+data = ~/Data/Mira_files/data_454_sanger/454/MID5.ssaha2
 technology = 454
 
 readgroup = Mid6
-data = ~/Data/Mira_files/data_454_sanger/454/MID6.*
+data = ~/Data/Mira_files/data_454_sanger/454/MID6.fastq
+data = ~/Data/Mira_files/data_454_sanger/454/MID6.xml
+data = ~/Data/Mira_files/data_454_sanger/454/MID6.ssaha2
 technology = 454
 
 #### Sanger data ###############################################################
-## QC consits of :
+## QC consists of :
 # Grabbing phredPHrap output which converts all .AB1 reads to .fasta and .qual
 
+#converting from fasta and .qual to .fastq
+# fastaqual_to_fastq Lsq_167d17_10k_shotgun.fasta.screen Lsq_167d17_10k_shotgun.fasta.screen.qual -o Lsq_167d17_10k_shotgun.fasta.screen.fastq
+
+# Trim low quality reads
+trim_quality Lsq_167d17_10k_shotgun.fasta.screen.fastq >Lsq_167d17_10k_shotgun.fasta.screen.TRIMMED.fastq
+
 ## Vector trimming
-# ssaha2 -output ssaha2 -kmer 8 -skip 1 -seeds 1 -score 12 -cmatch 9 -ckmer 6 ../454/contaminates.fasta Lsq_167d17_10k_shotgun.fasta.screen > Lsq_167d17_10k_shotgun.fasta.screen.ssaha2 &
+# ssaha2 -output ssaha2 -kmer 8 -skip 1 -seeds 1 -score 12 -cmatch 9 -ckmer 6 ../454/contaminates.fasta Lsq_167d17_10k_shotgun.fasta.screen.TRIMMED.fastq > Lsq_167d17_10k_shotgun.fasta.screen.TRIMMED.fastq.ssaha2 &
 
 readgroup = DataForSanger10kbLib
-data = /home/mgrobelny/Data/Mira_files/data_454_sanger/Lsq_167d17_10k_shotgun.fasta.screen.*
-data = screendataforyoursequences.ssaha2
+data = /home/mgrobelny/Data/Mira_files/data_454_sanger/Lsq_167d17_10k_shotgun.fasta.screen.TRIMMED.fastq
+data = Lsq_167d17_10k_shotgun.fasta.screen.TRIMMED.fastq.ssaha2
 technology = sanger
 #template_size = 2000 10000
 #segment_placement = ---> <--- what does this mean??
@@ -82,4 +103,7 @@ technology = sanger
 
 #### Running Mira  #############################################################
 # rename this file from .txt to .conf
+# mv Lsq_454_sanger_hybrid_assembly.txt Lsq_454_sanger_hybrid_assembly.conf
+
+# Pass into command line to run in background and collect STDOUT in mira_log_assembly.txt
 # mira Lsq_454_sanger_hybrid_assembly.conf > mira_log_assembly.txt &
