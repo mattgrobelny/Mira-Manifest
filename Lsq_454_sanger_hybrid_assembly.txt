@@ -7,9 +7,9 @@ job = genome,denovo,accurate
 
 ## Define MIRA Parameters ######################################################
 
-parameters= COMMON_SETTINGS -GENERAL:number_of_threads=23
-parameters= SANGER_SETTINGS -AS:mrl=80:epoq=no
-parameters= 454_SETTINGS -AS:mrl=30:epoq=yes
+parameters= COMMON_SETTINGS -GENERAL:number_of_threads=23 -NW:cac=warn
+parameters= SANGER_SETTINGS #-AS:mrl=80:epoq=no
+parameters= 454_SETTINGS #-AS:mrl=30:epoq=yes
 
 #### 454 data ##################################################################
 
@@ -22,56 +22,65 @@ parameters= 454_SETTINGS -AS:mrl=30:epoq=yes
 # sff_extract --min_left_clip 33 --mira_xml_info MID5.xml -o MID5.fastq mid_MID5.sff
 # sff_extract --min_left_clip 33 --mira_xml_info MID6.xml -o MID6.fastq mid_MID6.sff
 
+
+## Adapter + Quality trimming
+# trim_galore -q 30 --fastqc MID1.fastq
+# trim_galore -q 30 --fastqc MID2.fastq
+# trim_galore -q 30 --fastqc MID3.fastq
+# trim_galore -q 30 --fastqc MID4.fastq
+# trim_galore -q 30 --fastqc MID5.fastq
+# trim_galore -q 30 --fastqc MID6.fastq
+
 ## Vector trimming
 # ssaha2 -output ssaha2
 #  -kmer 8 -skip 1 -seeds 1 -score 12 -cmatch 9 -ckmer 6
 #  /path/where/the/vector/data/resides/vector.fasta
 #  yourinputsequences.fasta > screendataforyoursequences.ssaha2
 
-# ssaha2 -output ssaha2 -kmer 8 -skip 1 -seeds 1 -score 12 -cmatch 9 -ckmer 6 ./contaminates.fasta MID1.fastq > MID1.ssaha2 &
-# ssaha2 -output ssaha2 -kmer 8 -skip 1 -seeds 1 -score 12 -cmatch 9 -ckmer 6 ./contaminates.fasta MID2.fastq > MID2.ssaha2 &
-# ssaha2 -output ssaha2 -kmer 8 -skip 1 -seeds 1 -score 12 -cmatch 9 -ckmer 6 ./contaminates.fasta MID3.fastq > MID3.ssaha2 &
-# ssaha2 -output ssaha2 -kmer 8 -skip 1 -seeds 1 -score 12 -cmatch 9 -ckmer 6 ./contaminates.fasta MID4.fastq > MID4.ssaha2 &
-# ssaha2 -output ssaha2 -kmer 8 -skip 1 -seeds 1 -score 12 -cmatch 9 -ckmer 6 ./contaminates.fasta MID5.fastq > MID5.ssaha2 &
-# ssaha2 -output ssaha2 -kmer 8 -skip 1 -seeds 1 -score 12 -cmatch 9 -ckmer 6 ./contaminates.fasta MID6.fastq > MID6.ssaha2 &
+# ssaha2 -output ssaha2 -kmer 8 -skip 1 -seeds 1 -score 12 -cmatch 9 -ckmer 6 ./contaminates.fasta MID1_trimmed.fastq > MID1.ssaha2 &
+# ssaha2 -output ssaha2 -kmer 8 -skip 1 -seeds 1 -score 12 -cmatch 9 -ckmer 6 ./contaminates.fasta MID2_trimmed.fastq > MID2.ssaha2 &
+# ssaha2 -output ssaha2 -kmer 8 -skip 1 -seeds 1 -score 12 -cmatch 9 -ckmer 6 ./contaminates.fasta MID3_trimmed.fastq > MID3.ssaha2 &
+# ssaha2 -output ssaha2 -kmer 8 -skip 1 -seeds 1 -score 12 -cmatch 9 -ckmer 6 ./contaminates.fasta MID4_trimmed.fastq > MID4.ssaha2 &
+# ssaha2 -output ssaha2 -kmer 8 -skip 1 -seeds 1 -score 12 -cmatch 9 -ckmer 6 ./contaminates.fasta MID5_trimmed.fastq > MID5.ssaha2 &
+# ssaha2 -output ssaha2 -kmer 8 -skip 1 -seeds 1 -score 12 -cmatch 9 -ckmer 6 ./contaminates.fasta MID6_trimmed.fastq > MID6.ssaha2 &
 
 readgroup = Mid1
-data = ./data/MID1.fastq
+data = ./data/MID1_trimmed.fastq
 data = ./data/MID1.xml
-data = ./data/MID1.ssaha2
+#data = ./data/MID1.ssaha2
 
 technology = 454
 
 readgroup = Mid2
-data = ./data/MID2.fastq
+data = ./data/MID2_trimmed.fastq
 data = ./data/MID2.xml
-data = ./data/MID2.ssaha2
+#data = ./data/MID2.ssaha2
 
 technology = 454
 
 readgroup = Mid3
-data = ./data/MID3.fastq
+data = ./data/MID3_trimmed.fastq
 data = ./data/MID3.xml
-data = ./data/MID3.ssaha2
+#data = ./data/MID3.ssaha2
 
 technology = 454
 
 readgroup = Mid4
-data = ./data/MID4.fastq
+data = ./data/MID4_trimmed.fastq
 data = ./data/MID4.xml
-data = ./data/MID4.ssaha2
+#data = ./data/MID4.ssaha2
 technology = 454
 
 readgroup = Mid5
-data = ./data/MID5.fastq
+data = ./data/MID5_trimmed.fastq
 data = ./data/MID5.xml
-data = ./data/MID5.ssaha2
+#data = ./data/MID5.ssaha2
 technology = 454
 
 readgroup = Mid6
-data = ./data/MID6.fastq
+data = ./data/MID6_trimmed.fastq
 data = ./data/MID6.xml
-data = ./data/MID6.ssaha2
+#data = ./data/MID6.ssaha2
 technology = 454
 
 #### Sanger data ###############################################################
@@ -81,15 +90,17 @@ technology = 454
 #converting from fasta and .qual to .fastq
 # fastaqual_to_fastq Lsq_167d17_10k_shotgun.fasta.screen Lsq_167d17_10k_shotgun.fasta.screen.qual -o Lsq_167d17_10k_shotgun.fasta.screen.fastq
 
-# Trim low quality reads
-#trim_quality Lsq_167d17_10k_shotgun.fasta.screen.fastq >Lsq_167d17_10k_shotgun.fasta.screen.TRIMMED.fastq
+## Trim low quality reads
+# trim_quality Lsq_167d17_10k_shotgun.fasta.screen.fastq >Lsq_167d17_10k_shotgun.fasta.screen.TRIMMED.fastq
+# then
+# trim_galore -q 30 --fastqc Lsq_167d17_10k_shotgun.fasta.screen.TRIMMED.fastq
 
 ## Vector trimming
-# ssaha2 -output ssaha2 -kmer 8 -skip 1 -seeds 1 -score 12 -cmatch 9 -ckmer 6 ../454/contaminates.fasta Lsq_167d17_10k_shotgun.fasta.screen.TRIMMED.fastq > Lsq_167d17_10k_shotgun.fasta.screen.TRIMMED.fastq.ssaha2 &
+# ssaha2 -output ssaha2 -kmer 8 -skip 1 -seeds 1 -score 12 -cmatch 9 -ckmer 6 ./contaminates.fasta Lsq_167d17_10k_shotgun.fasta.screen.TRIMMED_trimmed.fastq > Lsq_167d17_10k_shotgun.fasta.screen.TRIMMED.fastq.ssaha2 &
 
 readgroup = DataForSanger10kbLib
-data = ./data/Lsq_167d17_10k_shotgun.fasta.screen.TRIMMED.fastq
-data = ./data/Lsq_167d17_10k_shotgun.fasta.screen.TRIMMED.fastq.ssaha2
+data = ./data/Lsq_167d17_10k_shotgun.fasta.screen.TRIMMED_trimmed.fastq
+#data = ./data/Lsq_167d17_10k_shotgun.fasta.screen.TRIMMED.fastq.ssaha2
 technology = sanger
 #template_size = 2000 10000
 #segment_placement = ---> <--- what does this mean??
