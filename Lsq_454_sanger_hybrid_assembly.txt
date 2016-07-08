@@ -7,9 +7,9 @@ job = genome,denovo,accurate
 
 ## Define MIRA Parameters ######################################################
 
-parameters= COMMON_SETTINGS -GENERAL:number_of_threads=23 -NW:cac=warn
-parameters= SANGER_SETTINGS #-AS:mrl=80:epoq=no
-parameters= 454_SETTINGS #-AS:mrl=30:epoq=yes
+parameters= COMMON_SETTINGS -GENERAL:number_of_threads=23 -NW:cac=warn -SK:mmhr=1
+parameters= SANGER_SETTINGS -AS:mrl=80:epoq=no
+parameters= 454_SETTINGS -AS:mrl=30:epoq=yes
 
 #### 454 data ##################################################################
 
@@ -44,43 +44,43 @@ parameters= 454_SETTINGS #-AS:mrl=30:epoq=yes
 # ssaha2 -output ssaha2 -kmer 8 -skip 1 -seeds 1 -score 12 -cmatch 9 -ckmer 6 ./contaminates.fasta MID5_trimmed.fastq > MID5.ssaha2 &
 # ssaha2 -output ssaha2 -kmer 8 -skip 1 -seeds 1 -score 12 -cmatch 9 -ckmer 6 ./contaminates.fasta MID6_trimmed.fastq > MID6.ssaha2 &
 
-readgroup = Mid1
-data = ./data/MID1_trimmed.fastq
-data = ./data/MID1.xml
+#readgroup = Mid1
+#data = ./data/MID1_trimmed.fastq
+#data = ./data/MID1.xml
 #data = ./data/MID1.ssaha2
 
-technology = 454
+#technology = 454
 
-readgroup = Mid2
-data = ./data/MID2_trimmed.fastq
-data = ./data/MID2.xml
-#data = ./data/MID2.ssaha2
+#readgroup = Mid2
+#data = ./data/MID2_trimmed.fastq
+#data = ./data/MID2.xml
+##data = ./data/MID2.ssaha2
 
-technology = 454
+#technology = 454
 
-readgroup = Mid3
-data = ./data/MID3_trimmed.fastq
-data = ./data/MID3.xml
+#readgroup = Mid3
+#data = ./data/MID3_trimmed.fastq
+#data = ./data/MID3.xml
 #data = ./data/MID3.ssaha2
 
-technology = 454
+#technology = 454
 
-readgroup = Mid4
-data = ./data/MID4_trimmed.fastq
-data = ./data/MID4.xml
+#readgroup = Mid4
+#data = ./data/MID4_trimmed.fastq
+#data = ./data/MID4.xml
 #data = ./data/MID4.ssaha2
-technology = 454
+#technology = 454
 
-readgroup = Mid5
-data = ./data/MID5_trimmed.fastq
-data = ./data/MID5.xml
+#readgroup = Mid5
+#data = ./data/MID5_trimmed.fastq
+#data = ./data/MID5.xml
 #data = ./data/MID5.ssaha2
-technology = 454
+#technology = 454
 
 readgroup = Mid6
 data = ./data/MID6_trimmed.fastq
 data = ./data/MID6.xml
-#data = ./data/MID6.ssaha2
+data = ./data/MID6.ssaha2
 technology = 454
 
 #### Sanger data ###############################################################
