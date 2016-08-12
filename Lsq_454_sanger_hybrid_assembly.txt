@@ -2,7 +2,7 @@
 
 ### Run Mira under the following parameters and data sets ######################
 
-project = 454_mid1_6_n_sanger_10k_data
+project = 454_mid6_n_sanger_10k_7k_data_MID6_DATA_ONLY
 job = genome,denovo,accurate
 
 ## Define MIRA Parameters ######################################################
@@ -89,28 +89,36 @@ technology = 454
 
 #converting from fasta and .qual to .fastq
 # fastaqual_to_fastq Lsq_167d17_10k_shotgun.fasta.screen Lsq_167d17_10k_shotgun.fasta.screen.qual -o Lsq_167d17_10k_shotgun.fasta.screen.fastq
+# fastaqual_to_fastq Lsq_167d17_7k_shotgun.fasta.screen Lsq_167d17_7k_shotgun.fasta.screen.qual -o Lsq_167d17_7k_shotgun.fasta.screen.fastq
 
 ## Trim low quality reads
-# trim_quality Lsq_167d17_10k_shotgun.fasta.screen.fastq >Lsq_167d17_10k_shotgun.fasta.screen.TRIMMED.fastq
+# trim_quality Lsq_167d17_10k_shotgun.fasta.screen.fastq > Lsq_167d17_10k_shotgun.fasta.screen.TRIMMED.fastq
+# trim_quality Lsq_167d17_7k_shotgun.fasta.screen.fastq > Lsq_167d17_7k_shotgun.fasta.screen.TRIMMED.fastq
+
 # then
+
 # trim_galore -q 30 --fastqc Lsq_167d17_10k_shotgun.fasta.screen.TRIMMED.fastq
+# trim_galore -q 30 --fastqc Lsq_167d17_7k_shotgun.fasta.screen.TRIMMED.fastq
 
 ## Vector trimming
-# ssaha2 -output ssaha2 -kmer 8 -skip 1 -seeds 1 -score 12 -cmatch 9 -ckmer 6 ./contaminates.fasta Lsq_167d17_10k_shotgun.fasta.screen.TRIMMED_trimmed.fastq > Lsq_167d17_10k_shotgun.fasta.screen.TRIMMED.fastq.ssaha2 &
+# ssaha2 -output ssaha2 -kmer 8 -skip 1 -seeds 1 -score 12 -cmatch 9 -ckmer 6 ./contaminates.fasta ./Lsq_167d17_10k_shotgun.fasta.screen.TRIMMED.fastq > Lsq_167d17_10k_shotgun.fasta.screen.TRIMMED.fastq.ssaha2 &
+
+# ssaha2 -output ssaha2 -kmer 8 -skip 1 -seeds 1 -score 12 -cmatch 9 -ckmer 6 ./contaminates.fasta ./Lsq_167d17_7k_shotgun.fasta.screen.TRIMMED.fastq > Lsq_167d17_7k_shotgun.fasta.screen.TRIMMED.fastq.ssaha2 &
+
 
 readgroup = DataForSanger10kbLib
-data = ./data/Lsq_167d17_10k_shotgun.fasta.screen.TRIMMED_trimmed.fastq
-#data = ./data/Lsq_167d17_10k_shotgun.fasta.screen.TRIMMED.fastq.ssaha2
+data = ./data/Lsq_167d17_10k_shotgun.fasta.screen.TRIMMED.fastq
+data = ./data/Lsq_167d17_10k_shotgun.fasta.screen.TRIMMED.fastq.ssaha2
 technology = sanger
 #template_size = 2000 10000
 #segment_placement = ---> <--- what does this mean??
 
-# Data is not available yet
-# readgroup = DataForSanger7kbLib
-# data = ./data//home/mgrobelny/Data/Mira_files/data_454_sanger/Lsq_167d17_7k_shotgun.fasta.screen.*
-# technology = sanger
-# template_size = 3000 10000
-# segment_placement = ---> <--- what does this mean??
+readgroup = DataForSanger7kbLib
+data = ./data/Lsq_167d17_7k_shotgun.fasta.screen.TRIMMED.fastq
+data = ./data/Lsq_167d17_7k_shotgun.fasta.screen.TRIMMED.fastq.ssaha2
+technology = sanger
+#template_size = 2000 10000
+#segment_placement = ---> <--- what does this mean??
 
 #### Running Mira  #############################################################
 # rename this file from .txt to .conf
